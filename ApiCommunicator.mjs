@@ -1,6 +1,10 @@
 const baseUrl = 'https://challenge.snapsoft.hu';
 
 export default class ApiCommunicator {
+    /**
+     * @param {HttpsConnector} httpsConnector
+     * @param {string} apiToken
+     */
     constructor(httpsConnector, apiToken) {
         this._httpsConnector = httpsConnector;
         this._apiToken = apiToken;
@@ -193,6 +197,11 @@ ${fileContent}`);
         return `/files/api/submissions/code-upload/${problemId}/${fileName}`;
     }
 
+    /**
+     * @param {string} responseString
+     * @returns {string}
+     * @private
+     */
     _parseUploadCodeResponseBody(responseString) {
         const responseJson = JSON.parse(responseString);
         return responseJson.error;
