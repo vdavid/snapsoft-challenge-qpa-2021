@@ -1,9 +1,15 @@
-export default class SnapSoftIntegration {
-    /**
-     * @param {ApiCommunicator} apiCommunicator
-     */
-    constructor(apiCommunicator) {
-        this._apiCommunicator = apiCommunicator;
+import ApiCommunicator from './ApiCommunicator';
+import util from 'util';
+
+interface SolverFunction {
+    solve(input: object): object;
+}
+
+export default class SnapsoftIntegration {
+    private apiCommunicator: ApiCommunicator;
+
+    constructor(apiCommunicator: ApiCommunicator) {
+        this.apiCommunicator = apiCommunicator;
     }
 
     /**
@@ -13,24 +19,27 @@ export default class SnapSoftIntegration {
      * @param {string[]} sourceCodeFileNames
      * @returns {Promise<boolean>}
      */
-    async solveProblem(id, sampleIndex, solver, sourceCodeFileNames) {
+    async solveProblem(id: string, sampleIndex: number, solver: SolverFunction, sourceCodeFileNames: string[]) {
         /* Create submission */
-        const submissionResponse = await this._apiCommunicator.createSubmission(id, sampleIndex);
-        console.log(submissionResponse);
+        try {
+            const submissionResponse = await this.apiCommunicator.createSubmission(id, sampleIndex);
+            console.log(`Got submission #${submissionResponse.id} with ${submissionResponse.testCount} tests, sampleIndex: ${sampleIndex}, startedAt: ${submissionResponse.startedAt}.`)
 
 // const submissionResponse = {id: 'aab256a8-1fd2-11ec-b7a2-06c3cc14c34c', testCount: 1};
-        if (!submissionResponse.errorMessage) {
             /* Fetch all tests */
-            const tests = []
+            const tests = [];
             for (let testIndex = 0; testIndex < submissionResponse.testCount; testIndex++) {
-                tests.push(await this._apiCommunicator.getTestInput(submissionResponse.id));
+                tests.push(await this.apiCommunicator.getTestInput(submissionResponse.id));
             }
-            console.log(tests);
+            console.log(`Received #${tests.length} tests. Inputs:`);
+            tests.forEach(test => console.log(test.input));
 
             /* Solve each test */
             const testResults = tests.map(test => ({id: test.testId, output: solver.solve(test.input)}));
-            console.log(testResults);
-            const responses = await Promise.all(testResults.map(testResult => this._apiCommunicator.submitTestResult(testResult.id, testResult.output)));
+            console.log(`Results:`);
+            console.log(util.inspect(testResults, false, 3, true));
+            const responses = await Promise.all(testResults.map(testResult => this.apiCommunicator.submitTestResult(testResult.id, testResult.output)));
+            console.log(`Responses:`);
             console.log(responses);
 
             /* Zip files if succeeded */
@@ -46,6 +55,8 @@ export default class SnapSoftIntegration {
                 // write error message
                 return true;
             }
+        } catch (error: any) {
+            console.log(error);
         }
         return false;
     }

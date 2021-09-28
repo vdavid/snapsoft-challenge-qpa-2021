@@ -1,5 +1,7 @@
 import SanityCheckSolver from "./SanityCheckSolver";
+
 const sanityCheckSolver = new SanityCheckSolver();
+
 const result = sanityCheckSolver.solve({
     "meta": {
         "set_length": 4
@@ -11,10 +13,10 @@ const result = sanityCheckSolver.solve({
         "64",
     ]
 });
+
 if (result.insane_numbers.length === 1 && result.insane_numbers[0] === '233') {
     console.log('Yaay!');
-}
-else {
+} else {
     console.log('Nay!');
     console.log(result);
 }

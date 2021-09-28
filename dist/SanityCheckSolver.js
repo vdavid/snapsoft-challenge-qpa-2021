@@ -1,14 +1,14 @@
-export default class SanityCheckSolver {
-    /**
-     * @param {{meta: {set_length: number}, set: string[]}} input
-     * @returns {{insane_numbers: BigInt[]}}
-     */
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class SanityCheckSolver {
     solve(input) {
-        const itemsWithBinary = input.set.map(item => ({original: item, binary: BigInt(item).toString(2)}));
-        const itemsWithOneCount = itemsWithBinary.map(item => ({original: item.original, binary: item.binary, oneCount: (item.binary.match(/1/g)||[]).length}));
+        const itemsWithBinary = input.set.map(item => ({ original: item, binary: BigInt(item).toString(2) }));
+        const itemsWithOneCount = itemsWithBinary.map(item => ({ original: item.original, binary: item.binary, oneCount: (item.binary.match(/1/g) || []).length }));
         const maximumOneCount = itemsWithOneCount.reduce((maximumOneCount, item) => Math.max(item.oneCount, maximumOneCount), 0);
         const itemsWithMaximumOneCount = itemsWithOneCount.filter(item => item.oneCount === maximumOneCount);
         //return {insane_numbers: itemsWithMaximumOneCount};
-        return {insane_numbers: itemsWithMaximumOneCount.map(item => item.original.toString(10))};
+        return { insane_numbers: itemsWithMaximumOneCount.map(item => item.original) };
     }
 }
+exports.default = SanityCheckSolver;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiU2FuaXR5Q2hlY2tTb2x2ZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi9zcmMvU2FuaXR5Q2hlY2tTb2x2ZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxNQUFxQixpQkFBaUI7SUFDbEMsS0FBSyxDQUFDLEtBQWtEO1FBQ3BELE1BQU0sZUFBZSxHQUFHLEtBQUssQ0FBQyxHQUFHLENBQUMsR0FBRyxDQUFDLElBQUksQ0FBQyxFQUFFLENBQUMsQ0FBQyxFQUFDLFFBQVEsRUFBRSxJQUFJLEVBQUUsTUFBTSxFQUFFLE1BQU0sQ0FBQyxJQUFJLENBQUMsQ0FBQyxRQUFRLENBQUMsQ0FBQyxDQUFDLEVBQUMsQ0FBQyxDQUFDLENBQUM7UUFDcEcsTUFBTSxpQkFBaUIsR0FBRyxlQUFlLENBQUMsR0FBRyxDQUFDLElBQUksQ0FBQyxFQUFFLENBQUMsQ0FBQyxFQUFDLFFBQVEsRUFBRSxJQUFJLENBQUMsUUFBUSxFQUFFLE1BQU0sRUFBRSxJQUFJLENBQUMsTUFBTSxFQUFFLFFBQVEsRUFBRSxDQUFDLElBQUksQ0FBQyxNQUFNLENBQUMsS0FBSyxDQUFDLElBQUksQ0FBQyxJQUFFLEVBQUUsQ0FBQyxDQUFDLE1BQU0sRUFBQyxDQUFDLENBQUMsQ0FBQztRQUN4SixNQUFNLGVBQWUsR0FBRyxpQkFBaUIsQ0FBQyxNQUFNLENBQUMsQ0FBQyxlQUFlLEVBQUUsSUFBSSxFQUFFLEVBQUUsQ0FBQyxJQUFJLENBQUMsR0FBRyxDQUFDLElBQUksQ0FBQyxRQUFRLEVBQUUsZUFBZSxDQUFDLEVBQUUsQ0FBQyxDQUFDLENBQUM7UUFDekgsTUFBTSx3QkFBd0IsR0FBRyxpQkFBaUIsQ0FBQyxNQUFNLENBQUMsSUFBSSxDQUFDLEVBQUUsQ0FBQyxJQUFJLENBQUMsUUFBUSxLQUFLLGVBQWUsQ0FBQyxDQUFDO1FBQ3JHLG9EQUFvRDtRQUNwRCxPQUFPLEVBQUMsY0FBYyxFQUFFLHdCQUF3QixDQUFDLEdBQUcsQ0FBQyxJQUFJLENBQUMsRUFBRSxDQUFDLElBQUksQ0FBQyxRQUFRLENBQUMsRUFBQyxDQUFDO0lBQ2pGLENBQUM7Q0FDSjtBQVRELG9DQVNDIiwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0IGRlZmF1bHQgY2xhc3MgU2FuaXR5Q2hlY2tTb2x2ZXIge1xyXG4gICAgc29sdmUoaW5wdXQ6IHttZXRhOiB7c2V0X2xlbmd0aDogbnVtYmVyfSwgc2V0OiBzdHJpbmdbXX0pOiB7aW5zYW5lX251bWJlcnM6IHN0cmluZ1tdfSB7XHJcbiAgICAgICAgY29uc3QgaXRlbXNXaXRoQmluYXJ5ID0gaW5wdXQuc2V0Lm1hcChpdGVtID0+ICh7b3JpZ2luYWw6IGl0ZW0sIGJpbmFyeTogQmlnSW50KGl0ZW0pLnRvU3RyaW5nKDIpfSkpO1xyXG4gICAgICAgIGNvbnN0IGl0ZW1zV2l0aE9uZUNvdW50ID0gaXRlbXNXaXRoQmluYXJ5Lm1hcChpdGVtID0+ICh7b3JpZ2luYWw6IGl0ZW0ub3JpZ2luYWwsIGJpbmFyeTogaXRlbS5iaW5hcnksIG9uZUNvdW50OiAoaXRlbS5iaW5hcnkubWF0Y2goLzEvZyl8fFtdKS5sZW5ndGh9KSk7XHJcbiAgICAgICAgY29uc3QgbWF4aW11bU9uZUNvdW50ID0gaXRlbXNXaXRoT25lQ291bnQucmVkdWNlKChtYXhpbXVtT25lQ291bnQsIGl0ZW0pID0+IE1hdGgubWF4KGl0ZW0ub25lQ291bnQsIG1heGltdW1PbmVDb3VudCksIDApO1xyXG4gICAgICAgIGNvbnN0IGl0ZW1zV2l0aE1heGltdW1PbmVDb3VudCA9IGl0ZW1zV2l0aE9uZUNvdW50LmZpbHRlcihpdGVtID0+IGl0ZW0ub25lQ291bnQgPT09IG1heGltdW1PbmVDb3VudCk7XHJcbiAgICAgICAgLy9yZXR1cm4ge2luc2FuZV9udW1iZXJzOiBpdGVtc1dpdGhNYXhpbXVtT25lQ291bnR9O1xyXG4gICAgICAgIHJldHVybiB7aW5zYW5lX251bWJlcnM6IGl0ZW1zV2l0aE1heGltdW1PbmVDb3VudC5tYXAoaXRlbSA9PiBpdGVtLm9yaWdpbmFsKX07XHJcbiAgICB9XHJcbn0iXX0=

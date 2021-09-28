@@ -1,24 +1,29 @@
-import ApiCommunicator from "./ApiCommunicator";
-import HttpsConnector from './HttpsConnector';
-import SnapSoftIntegration from "./SnapSoftIntegration";
-import SanityCheckSolver from "./SanityCheckSolver";
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const ApiCommunicator_1 = __importDefault(require("./ApiCommunicator"));
+const HttpsConnector_1 = __importDefault(require("./HttpsConnector"));
+const SnapsoftIntegration_1 = __importDefault(require("./SnapsoftIntegration"));
+const SanityCheckSolver_1 = __importDefault(require("./SanityCheckSolver"));
+const config_json_1 = __importDefault(require("../config.json"));
 const sanityCheckProblemId = 'sanity-check';
-const sanityCheckSolverFileName = 'SanityCheckSolver.js';
-
-const apiToken = 'fmIM2RgAW7ueHMHB';
-const httpsConnector = new HttpsConnector();
-const apiCommunicator = new ApiCommunicator(httpsConnector, apiToken);
-const sanityCheckSolver = new SanityCheckSolver();
+const sanityCheckSolverFileName = 'SanityCheckSolver.mjs';
+const httpsConnector = new HttpsConnector_1.default();
+const apiCommunicator = new ApiCommunicator_1.default(httpsConnector, config_json_1.default.apiToken);
+const sanityCheckSolver = new SanityCheckSolver_1.default();
 const commonFileNames = [
     'HttpsConnector.mjs',
     'ApiCommunicator.mjs',
     'SnapsoftIntegration.mjs',
-]
-
-const snapSoftIntegration = new SnapSoftIntegration(apiCommunicator);
-const solvingResult = await snapSoftIntegration.solveProblem(sanityCheckProblemId, 0, sanityCheckSolver,
-    [...commonFileNames, sanityCheckSolverFileName]);
-if (solvingResult) {
-    console.log('Yaaay!');
+];
+async function solveFirstProblem() {
+    const snapSoftIntegration = new SnapsoftIntegration_1.default(apiCommunicator);
+    const solvingResult = await snapSoftIntegration.solveProblem(sanityCheckProblemId, 1, sanityCheckSolver, [...commonFileNames, sanityCheckSolverFileName]);
+    if (solvingResult) {
+        console.log('Yay!');
+    }
 }
+solveFirstProblem().then(() => { });
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi9zcmMvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7QUFBQSx3RUFBZ0Q7QUFDaEQsc0VBQThDO0FBQzlDLGdGQUF3RDtBQUN4RCw0RUFBb0Q7QUFDcEQsaUVBQW9DO0FBRXBDLE1BQU0sb0JBQW9CLEdBQUcsY0FBYyxDQUFDO0FBQzVDLE1BQU0seUJBQXlCLEdBQUcsdUJBQXVCLENBQUM7QUFFMUQsTUFBTSxjQUFjLEdBQUcsSUFBSSx3QkFBYyxFQUFFLENBQUM7QUFDNUMsTUFBTSxlQUFlLEdBQUcsSUFBSSx5QkFBZSxDQUFDLGNBQWMsRUFBRSxxQkFBTSxDQUFDLFFBQVEsQ0FBQyxDQUFDO0FBQzdFLE1BQU0saUJBQWlCLEdBQUcsSUFBSSwyQkFBaUIsRUFBRSxDQUFDO0FBQ2xELE1BQU0sZUFBZSxHQUFHO0lBQ3BCLG9CQUFvQjtJQUNwQixxQkFBcUI7SUFDckIseUJBQXlCO0NBQzVCLENBQUE7QUFFRCxLQUFLLFVBQVUsaUJBQWlCO0lBQzVCLE1BQU0sbUJBQW1CLEdBQUcsSUFBSSw2QkFBbUIsQ0FBQyxlQUFlLENBQUMsQ0FBQztJQUNyRSxNQUFNLGFBQWEsR0FBRyxNQUFNLG1CQUFtQixDQUFDLFlBQVksQ0FBQyxvQkFBb0IsRUFBRSxDQUFDLEVBQUUsaUJBQWlCLEVBQ25HLENBQUMsR0FBRyxlQUFlLEVBQUUseUJBQXlCLENBQUMsQ0FBQyxDQUFDO0lBQ3JELElBQUksYUFBYSxFQUFFO1FBQ2YsT0FBTyxDQUFDLEdBQUcsQ0FBQyxNQUFNLENBQUMsQ0FBQztLQUN2QjtBQUNMLENBQUM7QUFFRCxpQkFBaUIsRUFBRSxDQUFDLElBQUksQ0FBQyxHQUFHLEVBQUUsR0FBRSxDQUFDLENBQUMsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBBcGlDb21tdW5pY2F0b3IgZnJvbSAnLi9BcGlDb21tdW5pY2F0b3InO1xyXG5pbXBvcnQgSHR0cHNDb25uZWN0b3IgZnJvbSAnLi9IdHRwc0Nvbm5lY3Rvcic7XHJcbmltcG9ydCBTbmFwc29mdEludGVncmF0aW9uIGZyb20gJy4vU25hcHNvZnRJbnRlZ3JhdGlvbic7XHJcbmltcG9ydCBTYW5pdHlDaGVja1NvbHZlciBmcm9tICcuL1Nhbml0eUNoZWNrU29sdmVyJztcclxuaW1wb3J0IGNvbmZpZyBmcm9tICcuLi9jb25maWcuanNvbic7XHJcblxyXG5jb25zdCBzYW5pdHlDaGVja1Byb2JsZW1JZCA9ICdzYW5pdHktY2hlY2snO1xyXG5jb25zdCBzYW5pdHlDaGVja1NvbHZlckZpbGVOYW1lID0gJ1Nhbml0eUNoZWNrU29sdmVyLm1qcyc7XHJcblxyXG5jb25zdCBodHRwc0Nvbm5lY3RvciA9IG5ldyBIdHRwc0Nvbm5lY3RvcigpO1xyXG5jb25zdCBhcGlDb21tdW5pY2F0b3IgPSBuZXcgQXBpQ29tbXVuaWNhdG9yKGh0dHBzQ29ubmVjdG9yLCBjb25maWcuYXBpVG9rZW4pO1xyXG5jb25zdCBzYW5pdHlDaGVja1NvbHZlciA9IG5ldyBTYW5pdHlDaGVja1NvbHZlcigpO1xyXG5jb25zdCBjb21tb25GaWxlTmFtZXMgPSBbXHJcbiAgICAnSHR0cHNDb25uZWN0b3IubWpzJyxcclxuICAgICdBcGlDb21tdW5pY2F0b3IubWpzJyxcclxuICAgICdTbmFwc29mdEludGVncmF0aW9uLm1qcycsXHJcbl1cclxuXHJcbmFzeW5jIGZ1bmN0aW9uIHNvbHZlRmlyc3RQcm9ibGVtKCkge1xyXG4gICAgY29uc3Qgc25hcFNvZnRJbnRlZ3JhdGlvbiA9IG5ldyBTbmFwc29mdEludGVncmF0aW9uKGFwaUNvbW11bmljYXRvcik7XHJcbiAgICBjb25zdCBzb2x2aW5nUmVzdWx0ID0gYXdhaXQgc25hcFNvZnRJbnRlZ3JhdGlvbi5zb2x2ZVByb2JsZW0oc2FuaXR5Q2hlY2tQcm9ibGVtSWQsIDEsIHNhbml0eUNoZWNrU29sdmVyLFxyXG4gICAgICAgIFsuLi5jb21tb25GaWxlTmFtZXMsIHNhbml0eUNoZWNrU29sdmVyRmlsZU5hbWVdKTtcclxuICAgIGlmIChzb2x2aW5nUmVzdWx0KSB7XHJcbiAgICAgICAgY29uc29sZS5sb2coJ1lheSEnKTtcclxuICAgIH1cclxufVxyXG5cclxuc29sdmVGaXJzdFByb2JsZW0oKS50aGVuKCgpID0+IHt9KTsiXX0=
