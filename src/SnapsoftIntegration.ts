@@ -9,7 +9,7 @@ export default class SnapsoftIntegration {
         this.apiCommunicator = apiCommunicator;
     }
 
-    async solveProblem(id: string, sampleIndex: number|undefined, solver: SolverFunction, sourceCodeFileNames: string[]) {
+    async solveProblem(id: string, sampleIndex: number|undefined, solver: SolverFunction) {
         /* Create submission */
         try {
             const submissionResponse = await this.apiCommunicator.createSubmission(id, sampleIndex);
@@ -30,20 +30,6 @@ export default class SnapsoftIntegration {
                     allCorrect = false;
                     break;
                 }
-            }
-
-            /* Zip files if succeeded */
-            if (allCorrect) {
-                console.log('All good!');
-                // const zip = new JSZip();
-                // await Promise.all(sourceCodeFileNames.map(async fileName => zip.file(fileName, await fs.promises.readFile(fileName))));
-                // const zippedContent = zip.generateAsync({type:"blob"});
-                // const result = await apiCommunicator.uploadCode(sanityCheckProblemId, `${sanityCheckProblemId}-zip`, zippedContent);
-                // if (!result) {
-                // all good
-                // } else {
-                // write error message
-                return true;
             }
         } catch (error: any) {
             console.log(error);
