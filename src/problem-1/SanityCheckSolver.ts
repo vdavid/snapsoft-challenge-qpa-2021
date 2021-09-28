@@ -1,4 +1,4 @@
-import {SolverFunction, Test} from './SolverFunction';
+import {SolverFunction, Test} from '../SolverFunction';
 
 interface SanityCheckTest extends Test {
     input: {meta: {set_length: number}, set: number[]};

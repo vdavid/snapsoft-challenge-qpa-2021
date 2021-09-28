@@ -1,7 +1,7 @@
 // noinspection JSMethodCanBeStatic
 
 import HttpsConnector from './HttpsConnector';
-import {Test} from './SolverFunction';
+import {Test} from '../SolverFunction';
 
 const baseUrl = 'https://challenge.snapsoft.hu';
 

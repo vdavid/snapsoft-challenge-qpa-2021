@@ -1,6 +1,6 @@
 import ApiCommunicator from './ApiCommunicator';
 import util from 'util';
-import {SolverFunction} from './SolverFunction';
+import {SolverFunction} from '../SolverFunction';
 
 export default class SnapsoftIntegration {
     private apiCommunicator: ApiCommunicator;

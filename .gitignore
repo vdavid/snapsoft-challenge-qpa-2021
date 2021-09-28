@@ -1,2 +1,3 @@
+src/config.json
 *.iml
-config.json
+*.zip
