@@ -7,17 +7,14 @@ const result = sanityCheckSolver.solve({
         "set_length": 4
     },
     "set": [
-        1,
-        233,
-        100,
-        64,
-        18446744073709551614,
-        18446744073709551613,
-        18446744073709551111, // TODO: use BigInt("2998239")!
+        "1",
+        "233",
+        "100",
+        "64",
     ]
 });
 
-if (result.insane_numbers.length === 1 && result.insane_numbers[0] === 233) {
+if (result.insane_numbers.length === 1 && result.insane_numbers[0] === '233') {
     console.log('Yaay!');
 } else {
     console.log('Nay!');
