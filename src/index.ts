@@ -18,7 +18,7 @@ const commonFileNames = [
 
 async function solveFirstProblem() {
     const snapSoftIntegration = new SnapsoftIntegration(apiCommunicator);
-    const solvingResult = await snapSoftIntegration.solveProblem(sanityCheckProblemId, 1, sanityCheckSolver,
+    const solvingResult = await snapSoftIntegration.solveProblem(sanityCheckProblemId, undefined, sanityCheckSolver,
         [...commonFileNames, sanityCheckSolverFileName]);
     if (solvingResult) {
         console.log('Yay!');

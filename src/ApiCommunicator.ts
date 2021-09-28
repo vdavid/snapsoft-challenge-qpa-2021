@@ -1,6 +1,7 @@
 // noinspection JSMethodCanBeStatic
 
 import HttpsConnector from './HttpsConnector';
+import {Test} from './SolverFunction';
 
 const baseUrl = 'https://challenge.snapsoft.hu';
 
@@ -13,7 +14,7 @@ export default class ApiCommunicator {
         this.apiToken = apiToken;
     }
 
-    async createSubmission(problemId: string, sampleIndex: number): Promise<{id: string, testCount: number, sampleIndex: number, startedAt: Date}> {
+    async createSubmission(problemId: string, sampleIndex: number|undefined): Promise<{id: string, testCount: number, sampleIndex: number, startedAt: Date}> {
         const url = baseUrl + this.getCreateSubmissionUrl();
         const response = await this.httpsConnector.requestPromisified(url,
             {method: 'POST', headers: this.buildRequestHeaders()},
@@ -21,7 +22,7 @@ export default class ApiCommunicator {
         return this.parseCreateSubmissionResponse(response.body);
     }
 
-    async getTestInput(submissionId: string): Promise<{testId: string, deadline: Date, input: any}> {
+    async getTestInput(submissionId: string): Promise<Test> {
         const url = baseUrl + this.getStartTestUrl();
         const response = await this.httpsConnector.requestPromisified(url,
             {method: 'PUT', headers: this.buildRequestHeaders()},
@@ -66,7 +67,7 @@ ${fileContent}`);
         return '/api/submissions/start-submission';
     }
 
-    private buildCreateSubmissionRequestBody(problemId: string, sampleIndex?: number): {problem: string, sample_index?: number} {
+    private buildCreateSubmissionRequestBody(problemId: string, sampleIndex: number|undefined): {problem: string, sample_index?: number} {
         return sampleIndex !== undefined ? {problem: problemId, sample_index: sampleIndex} : {problem: problemId};
     }
 
@@ -104,12 +105,7 @@ ${fileContent}`);
         return {submission: submissionId};
     }
 
-    /**
-     * @param {string} responseString
-     * @returns {{testId: string, deadline: Date, input: *}}
-     * @private
-     */
-    private parseStartTestResponse(responseString: string) {
+    private parseStartTestResponse(responseString: string): Test {
         const responseJson = JSON.parse(responseString);
         return {
             testId: responseJson.test_id,

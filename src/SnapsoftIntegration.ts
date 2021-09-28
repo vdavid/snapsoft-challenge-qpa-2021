@@ -1,9 +1,6 @@
 import ApiCommunicator from './ApiCommunicator';
 import util from 'util';
-
-interface SolverFunction {
-    solve(input: object): object;
-}
+import {SolverFunction} from './SolverFunction';
 
 export default class SnapsoftIntegration {
     private apiCommunicator: ApiCommunicator;
@@ -12,14 +9,7 @@ export default class SnapsoftIntegration {
         this.apiCommunicator = apiCommunicator;
     }
 
-    /**
-     * @param {string} id
-     * @param {number} sampleIndex
-     * @param {{solve: function(*): *}} solver
-     * @param {string[]} sourceCodeFileNames
-     * @returns {Promise<boolean>}
-     */
-    async solveProblem(id: string, sampleIndex: number, solver: SolverFunction, sourceCodeFileNames: string[]) {
+    async solveProblem(id: string, sampleIndex: number|undefined, solver: SolverFunction, sourceCodeFileNames: string[]) {
         /* Create submission */
         try {
             const submissionResponse = await this.apiCommunicator.createSubmission(id, sampleIndex);
@@ -27,23 +17,23 @@ export default class SnapsoftIntegration {
 
 // const submissionResponse = {id: 'aab256a8-1fd2-11ec-b7a2-06c3cc14c34c', testCount: 1};
             /* Fetch all tests */
-            const tests = [];
+            let allCorrect = true;
             for (let testIndex = 0; testIndex < submissionResponse.testCount; testIndex++) {
-                tests.push(await this.apiCommunicator.getTestInput(submissionResponse.id));
+                const test = await this.apiCommunicator.getTestInput(submissionResponse.id);
+                console.log(`Received Test #${testIndex} Input:`);
+                util.inspect(test.input, false, 3, true)
+                const solution = solver.solve(test);
+                util.inspect(solution, false, 3, true)
+                const response = await this.apiCommunicator.submitTestResult(test.testId, solution)
+                console.log(response);
+                if (!response) {
+                    allCorrect = false;
+                    break;
+                }
             }
-            console.log(`Received #${tests.length} tests. Inputs:`);
-            tests.forEach(test => console.log(test.input));
-
-            /* Solve each test */
-            const testResults = tests.map(test => ({id: test.testId, output: solver.solve(test.input)}));
-            console.log(`Results:`);
-            console.log(util.inspect(testResults, false, 3, true));
-            const responses = await Promise.all(testResults.map(testResult => this.apiCommunicator.submitTestResult(testResult.id, testResult.output)));
-            console.log(`Responses:`);
-            console.log(responses);
 
             /* Zip files if succeeded */
-            if (sampleIndex === undefined && !responses.find(response => !response)) {
+            if (allCorrect) {
                 console.log('All good!');
                 // const zip = new JSZip();
                 // await Promise.all(sourceCodeFileNames.map(async fileName => zip.file(fileName, await fs.promises.readFile(fileName))));
