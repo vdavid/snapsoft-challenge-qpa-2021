@@ -1,4 +1,4 @@
-import SanityCheckSolver from "./SanityCheckSolver.mjs";
+import SanityCheckSolver from "./SanityCheckSolver";
 
 const sanityCheckSolver = new SanityCheckSolver();
 

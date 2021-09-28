@@ -1,10 +1,10 @@
-import ApiCommunicator from "./ApiCommunicator.mjs";
-import HttpsConnector from './HttpsConnector.mjs';
-import SnapSoftIntegration from "./SnapSoftIntegration.mjs";
-import SanityCheckSolver from "./SanityCheckSolver.mjs";
+import ApiCommunicator from "./ApiCommunicator";
+import HttpsConnector from './HttpsConnector';
+import SnapSoftIntegration from "./SnapSoftIntegration";
+import SanityCheckSolver from "./SanityCheckSolver";
 
 const sanityCheckProblemId = 'sanity-check';
-const sanityCheckSolverFileName = 'SanityCheckSolver.mjs';
+const sanityCheckSolverFileName = 'SanityCheckSolver.js';
 
 const apiToken = 'fmIM2RgAW7ueHMHB';
 const httpsConnector = new HttpsConnector();
