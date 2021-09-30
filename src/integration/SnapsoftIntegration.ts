@@ -9,28 +9,29 @@ export default class SnapsoftIntegration {
         this.apiCommunicator = apiCommunicator;
     }
 
-    async solveProblem(id: string, sampleIndex: number|undefined, solver: SolverFunction) {
+    async solveProblem(id: string, sampleIndex: number | undefined, solver: SolverFunction) {
         /* Create submission */
         try {
             const submissionResponse = await this.apiCommunicator.createSubmission(id, sampleIndex);
-            console.log(`Got submission #${submissionResponse.id} with ${submissionResponse.testCount} tests, sampleIndex: ${sampleIndex}, startedAt: ${submissionResponse.startedAt}.`)
+            console.log(`Got submission #${submissionResponse.id} with ${submissionResponse.testCount} tests, sampleIndex: ${sampleIndex}, startedAt: ${submissionResponse.startedAt}.`);
 
 // const submissionResponse = {id: 'aab256a8-1fd2-11ec-b7a2-06c3cc14c34c', testCount: 1};
             /* Fetch all tests */
-            let allCorrect = true;
+            let wereAllCorrect = true;
             for (let testIndex = 0; testIndex < submissionResponse.testCount; testIndex++) {
                 const test = await this.apiCommunicator.getTestInput(submissionResponse.id);
                 console.log(`Received Test #${testIndex} Input:`);
-                util.inspect(test.input, false, 3, true)
+                console.log(util.inspect(test.input, false, 3, true));
                 const solution = solver.solve(test);
-                util.inspect(solution, false, 3, true)
-                const response = await this.apiCommunicator.submitTestResult(test.testId, solution)
+                console.log(util.inspect(solution, false, 3, true));
+                const response = await this.apiCommunicator.submitTestResult(test.testId, solution);
                 console.log(response);
                 if (!response) {
-                    allCorrect = false;
+                    wereAllCorrect = false;
                     break;
                 }
             }
+            return wereAllCorrect;
         } catch (error: any) {
             console.log(error);
         }
