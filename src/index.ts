@@ -7,11 +7,13 @@ import SnapsoftIntegration from './integration/SnapsoftIntegration';
 import SanityCheckSolver from './problem-1/SanityCheckSolver';
 import MazeSolver from './problem-2/MazeSolver';
 import KingPinnedSolver from './problem-3/KingPinnedSolver';
+import BarrelSolver from './problem-4/BarrelSolver';
 
 const problemIds = [
     'sanity-check',
     'maze',
     'king-pinned',
+    'barrel',
 ];
 
 const httpsConnector = new HttpsConnector();
@@ -20,6 +22,7 @@ const apiCommunicator = new ApiCommunicator(httpsConnector, config.apiToken);
 const sanityCheckSolver = new SanityCheckSolver();
 const mazeSolver = new MazeSolver();
 const kingPinnedSolver = new KingPinnedSolver();
+const barrelSolver = new BarrelSolver();
 
 async function solve1stProblem() {
     const snapSoftIntegration = new SnapsoftIntegration(apiCommunicator);
@@ -45,4 +48,12 @@ async function solve3rdProblem() {
     }
 }
 
-solve3rdProblem().then(() => {});
+async function solve4rdProblem() {
+    const snapSoftIntegration = new SnapsoftIntegration(apiCommunicator);
+    const solvingResult = await snapSoftIntegration.solveProblem(problemIds[3], undefined, barrelSolver);
+    if (solvingResult) {
+        console.log('Yay!');
+    }
+}
+
+solve4rdProblem().then(() => {});
