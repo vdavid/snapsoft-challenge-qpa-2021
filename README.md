@@ -1,0 +1,1 @@
+A TypeScript project I used for solving 4 problems for 2021 Schönherz Qpa coding challenge, plus a LeetCode challenge.
