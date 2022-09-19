@@ -4,10 +4,10 @@ import HttpsConnector from './integration/HttpsConnector';
 import ApiCommunicator from './integration/ApiCommunicator';
 import SnapsoftIntegration from './integration/SnapsoftIntegration';
 
-import SanityCheckSolver from './problem-1/SanityCheckSolver';
-import MazeSolver from './problem-2/MazeSolver';
-import KingPinnedSolver from './problem-3/KingPinnedSolver';
-import BarrelSolver from './problem-4/BarrelSolver';
+import SanityCheckSolver from './2021-problem-1/SanityCheckSolver';
+import MazeSolver from './2021-problem-2/MazeSolver';
+import KingPinnedSolver from './2021-problem-3/KingPinnedSolver';
+import BarrelSolver from './2021-problem-4/BarrelSolver';
 
 const problemIds = [
     'sanity-check',
