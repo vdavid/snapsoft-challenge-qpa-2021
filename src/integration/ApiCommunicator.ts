@@ -6,8 +6,8 @@ import {Test} from '../SolverFunction';
 const baseUrl = 'https://challenge.snapsoft.hu';
 
 export default class ApiCommunicator {
-    private httpsConnector: HttpsConnector;
-    private apiToken: string;
+    private readonly httpsConnector: HttpsConnector;
+    private readonly apiToken: string;
 
     constructor(httpsConnector: HttpsConnector, apiToken: string) {
         this.httpsConnector = httpsConnector;
@@ -38,7 +38,7 @@ export default class ApiCommunicator {
         return this.parseSubmitTestResultResponseBody(response.body);
     }
 
-    async uploadCode(problemId: string, fileName: string, fileContent: string): Promise<void> {
+    async uploadCode(problemId: string, fileName: string, fileContent: string): Promise<string> {
         const url = baseUrl + this.getUploadCodeUrl(problemId, fileName);
         const response = await this.httpsConnector.requestPromisified(url,
             {method: 'POST', headers: {
@@ -59,11 +59,7 @@ ${fileContent}`);
         };
     }
 
-    /**
-     * @returns {string}
-     * @private
-     */
-    private getCreateSubmissionUrl() {
+    private getCreateSubmissionUrl(): string {
         return '/api/submissions/start-submission';
     }
 
@@ -88,20 +84,11 @@ ${fileContent}`);
 
     /*********************************************/
 
-    /**
-     * @returns {string}
-     * @private
-     */
-    private getStartTestUrl() {
+    private getStartTestUrl(): string {
         return '/api/submissions/test';
     }
 
-    /**
-     * @param {string} submissionId
-     * @returns {{submission: string}}
-     * @private
-     */
-    private buildStartTestRequestBody(submissionId: string) {
+    private buildStartTestRequestBody(submissionId: string): {submission: string} {
         return {submission: submissionId};
     }
 
@@ -116,12 +103,7 @@ ${fileContent}`);
 
     /*********************************************/
 
-    /**
-     * @param {string} testId
-     * @returns {string}
-     * @private
-     */
-    private getSubmitTestResultUrl(testId: string) {
+    private getSubmitTestResultUrl(testId: string): string {
         return `/api/submissions/test/${testId}`;
     }
 
@@ -129,34 +111,18 @@ ${fileContent}`);
         return {output};
     }
 
-    /**
-     * @param {string} responseString
-     * @returns {boolean}
-     * @private
-     */
-    private parseSubmitTestResultResponseBody(responseString: string) {
+    private parseSubmitTestResultResponseBody(responseString: string): boolean {
         const responseJson = JSON.parse(responseString);
         return responseJson.correct;
     }
 
     /*********************************************/
 
-    /**
-     * @param {string} problemId
-     * @param {string} fileName
-     * @returns {string}
-     * @private
-     */
-    private getUploadCodeUrl(problemId: string, fileName: string) {
+    private getUploadCodeUrl(problemId: string, fileName: string): string {
         return `/files/api/submissions/code-upload/${problemId}/${fileName}`;
     }
 
-    /**
-     * @param {string} responseString
-     * @returns {string}
-     * @private
-     */
-    private parseUploadCodeResponseBody(responseString: string) {
+    private parseUploadCodeResponseBody(responseString: string): string {
         const responseJson = JSON.parse(responseString);
         return responseJson.error;
     }

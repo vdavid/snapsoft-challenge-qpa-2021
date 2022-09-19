@@ -9,7 +9,7 @@ export default class SnapsoftIntegration {
         this.apiCommunicator = apiCommunicator;
     }
 
-    async solveProblem(id: string, sampleIndex: number | undefined, solver: SolverFunction) {
+    async solveProblem(id: string, sampleIndex: number | undefined, solver: SolverFunction): Promise<boolean> {
         /* Create submission */
         try {
             const submissionResponse = await this.apiCommunicator.createSubmission(id, sampleIndex);
